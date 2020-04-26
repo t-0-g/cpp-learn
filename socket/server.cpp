@@ -4,8 +4,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <iostream>
  
-int main() {
+int main(int argc, char* argv[]) {
     int sockfd;
     int client_sockfd;
     struct sockaddr_in addr;
@@ -13,7 +14,7 @@ int main() {
     socklen_t len = sizeof( struct sockaddr_in );
     struct sockaddr_in from_addr;
  
-    char buf[1024];
+    char buf[atoi(argv[1])];
  
     // 受信バッファ初期化
     memset( buf, 0, sizeof( buf ) );
@@ -53,11 +54,7 @@ int main() {
         } else if ( rsize == -1 ) {
             perror( "recv" );
         } else {
-            printf( "receive:%s\n", buf );
-            sleep( 1 );
- 
-            // 応答
-            printf( "send:%s\n", buf );
+            // printf( "receive:%s\n", buf );
             write( client_sockfd, buf, rsize );
         }
     }
